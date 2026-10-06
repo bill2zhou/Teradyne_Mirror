@@ -1,0 +1,258 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #1e1f22;
+  --panel-bg: #2b2d30;
+  --border: #3a3d42;
+  --text: #e6e6e6;
+  --text-dim: #8a8f98;
+  --accent: #4a9eff;
+  --danger: #e05252;
+  --success: #4caf50;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Microsoft YaHei UI', 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== 顶部工具栏 ===== */
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: var(--panel-bg);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.btn {
+  background: #3a3d42;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 6px 14px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background 0.15s;
+}
+.btn:hover { background: #45484e; }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn.primary:hover { background: #63adff; }
+.btn.danger { background: #5c3333; border-color: #6d3a3a; color: #ff9a9a; }
+.btn.danger:hover { background: #6d3a3a; }
+
+/* ===== 主区域 ===== */
+.main-area {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* 面板容器 */
+.panel-container {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 8px;
+}
+
+/* 监控卡片 */
+.client-panel {
+  width: 320px;
+  min-height: 160px;
+  background: var(--panel-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.client-panel.grown { min-height: 360px; }
+
+.panel-titlebar {
+  padding: 6px 10px;
+  font-weight: bold;
+  font-size: 12px;
+  background: #34363a;
+  cursor: move;
+  user-select: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--text);
+}
+.panel-titlebar .conn-status {
+  font-size: 11px;
+  font-weight: normal;
+  color: var(--text-dim);
+}
+.panel-titlebar .conn-status.ok { color: var(--success); }
+
+/* 标题栏右侧：连接状态 + 重置按钮 */
+.titlebar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-reset {
+  background: #4a4e55;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 1px 8px;
+  font-size: 11px;
+  cursor: pointer;
+  line-height: 1.5;
+  user-select: none;
+}
+.btn-reset:hover { background: #5a5f68; }
+.btn-close {
+  background: #7a3030;
+  color: #ffd9d9;
+  border: 1px solid #934040;
+  border-radius: 3px;
+  padding: 1px 8px;
+  font-size: 11px;
+  cursor: pointer;
+  line-height: 1.5;
+  user-select: none;
+}
+.btn-close:hover { background: #944040; }
+
+/* 绑定面板（一个窗口、上下两部分） */
+.bonded-panel { min-height: 520px; }
+.bonded-panel .panel-log { min-height: 0; }
+.bonded-half {
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+.bonded-half:first-of-type { border-top: none; }
+/* 上半部分占满剩余空间（更高），下半部分固定高度不被压缩，整个窗口变大 */
+.bonded-half-top { flex: 2.2; }
+.bonded-half-bottom { flex: 0 0 auto; }
+.bonded-half-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3px 8px;
+  font-size: 11px;
+  color: var(--text-dim);
+  background: #303236;
+  font-weight: normal;
+}
+.bonded-half-key { font-family: Consolas, monospace; }
+.bonded-half-status { font-size: 11px; color: var(--text-dim); }
+.bonded-half-status.ok { color: var(--success); }
+/* 需高于 .panel-log 的特异性，否则其 max-height:340px 会覆盖本设置 */
+.bonded-panel .bonded-log { min-height: 0; max-height: 160px; }
+/* 上半部分日志区更高，可显示更多内容 */
+.bonded-panel .bonded-half-top .bonded-log { max-height: 360px; }
+
+.panel-log {
+  flex: 1;
+  padding: 8px;
+  font-family: Consolas, 'Courier New', monospace;
+  font-size: 12px;
+  white-space: pre-wrap;
+  word-break: break-all;
+  overflow-y: auto;
+  color: #d5d9e0;
+  min-height: 140px;
+  max-height: 340px;
+}
+
+.panel-log.warning { color: #ff5f5f; font-weight: bold; }
+
+/* Top Failed Components 中"最新更新"的零件显示为红色 */
+.panel-log .latest-fail { color: #ff4040; font-weight: bold; }
+
+/* ===== 模态框 ===== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modal {
+  width: 340px;
+  background: var(--panel-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 18px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.modal h3 { margin-bottom: 14px; font-size: 15px; }
+
+.modal label {
+  display: block;
+  font-size: 13px;
+  color: var(--text-dim);
+  margin: 10px 0 4px;
+}
+
+.full-input {
+  width: 100%;
+  background: #1a1b1e;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 6px 8px;
+  font-size: 13px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.hidden { display: none !important; }
+
+/* ===== 右键菜单 ===== */
+.context-menu {
+  position: fixed;
+  z-index: 200;
+  background: var(--panel-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  min-width: 130px;
+  padding: 4px 0;
+}
+
+.context-item {
+  padding: 8px 16px;
+  font-size: 13px;
+  cursor: pointer;
+}
+.context-item:hover { background: #3d4248; }
+
+/* 滚动条 */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #45484e; border-radius: 5px; }
+::-webkit-scrollbar-thumb:hover { background: #55585f; }

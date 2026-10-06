@@ -1,0 +1,32 @@
+## Build results
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+[Ll]og/
+
+## Visual Studio / VS Code / IDE
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## NuGet
+packages/
+*.nupkg
+
+## Node / Electron
+node_modules/
+electron/node_modules/
+electron/dist/
+electron/out/
+electron/dist_new/
+*.log
+npm-debug.log*
+
+## OS files
+Thumbs.db
+desktop.ini

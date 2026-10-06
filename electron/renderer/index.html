@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline';" />
+  <title>Socket 多客户端监控</title>
+  <link rel="stylesheet" href="style.css?v=3" />
+</head>
+<body>
+  <!-- 顶部工具栏（连接与发送入口已移到右键菜单） -->
+  <header class="toolbar"></header>
+
+  <!-- 主区域（面板容器，右键空白处可添加连接/绑定 IP） -->
+  <main class="main-area">
+    <section id="panelContainer" class="panel-container"></section>
+  </main>
+
+  <!-- 添加连接对话框 -->
+  <div id="addDialog" class="modal-overlay hidden">
+    <div class="modal">
+      <h3>添加连接</h3>
+      <label>IP 地址:</label>
+      <select id="ipInput" class="full-input">
+        <option>192.188.2.34</option>
+        <option>192.188.2.35</option>
+        <option>192.188.2.64</option>
+        <option>192.188.2.65</option>
+        <option>192.188.2.74</option>
+        <option>192.188.2.75</option>
+        <option>127.0.0.1</option>
+      </select>
+      <label>端口:</label>
+      <input type="number" id="portInput" value="8888" min="1" max="65535" class="full-input" />
+      <div class="modal-actions">
+        <button id="btnAddOk" class="btn primary">确定</button>
+        <button id="btnAddCancel" class="btn">取消</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 绑定两个 IP 对话框 -->
+  <div id="bindDialog" class="modal-overlay hidden">
+    <div class="modal">
+      <h3>绑定两个 IP</h3>
+      <div class="bind-group">
+        <label>IP 1 地址:</label>
+        <select id="bindIp1" class="full-input">
+          <option>192.188.2.35</option>
+          <option>192.188.2.65</option>
+          <option>192.188.2.75</option>
+          <option>127.0.0.1</option>
+        </select>
+        <label>IP 1 端口:</label>
+        <input type="number" id="bindPort1" value="8888" min="1" max="65535" class="full-input" />
+      </div>
+      <div class="bind-group">
+        <label>IP 2 地址:</label>
+        <select id="bindIp2" class="full-input">
+          <option>192.188.2.34</option>
+          <option>192.188.2.64</option>
+          <option>192.188.2.74</option>
+          <option>127.0.0.1</option>
+        </select>
+        <label>IP 2 端口:</label>
+        <input type="number" id="bindPort2" value="8888" min="1" max="65535" class="full-input" />
+      </div>
+      <div class="modal-actions">
+        <button id="btnBindOk" class="btn primary">确定</button>
+        <button id="btnBindCancel" class="btn">取消</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 发送消息对话框 -->
+  <div id="sendDialog" class="modal-overlay hidden">
+    <div class="modal">
+      <h3>发送消息</h3>
+      <label>目标连接:</label>
+      <select id="sendTarget" class="full-input"></select>
+      <label>消息内容:</label>
+      <textarea id="sendContent" class="full-input" rows="4" placeholder="输入要发送的消息..."></textarea>
+      <div class="modal-actions">
+        <button id="btnSendOk" class="btn primary">发送</button>
+        <button id="btnSendCancel" class="btn">取消</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 自定义右键菜单 -->
+  <div id="contextMenu" class="context-menu hidden">
+    <div id="menuAdd" class="context-item">添加连接</div>
+    <div id="menuBind" class="context-item">绑定两个 IP</div>
+    <div id="menuDisconnect" class="context-item hidden">断开连接</div>
+  </div>
+
+  <script src="webapi.js?v=3"></script>
+  <script src="renderer.js?v=3"></script>
+</body>
+</html>
